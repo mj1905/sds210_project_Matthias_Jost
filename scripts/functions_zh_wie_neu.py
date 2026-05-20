@@ -1,8 +1,8 @@
 #This file hosts all functions used inside the 5 jupyter notebook.
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import numpy as np
-import cmcrameri.cm as cmc
+import geopandas as gpd #type: ignore 
+import matplotlib.pyplot as plt #type: ignore 
+import numpy as np #type: ignore 
+import cmcrameri.cm as cmc #type: ignore 
 from pathlib import Path
 
 def import_preprocessed_data(file_name): #evtl put the other two functions inside this  
@@ -20,7 +20,8 @@ def import_preprocessed_data(file_name): #evtl put the other two functions insid
     import_path=Path(f"../data/processed/{file_name}")
 
     if not import_path.exists():
-        print("File not found! Please check the file name and the import path.")
+        print(f"File {file_name }not found! Please check the file name and the import path.")
+        return
     return gpd.read_file(import_path)
 
 def import_raw_data(file_name): #evtl put the other two functions inside this  
