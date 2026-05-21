@@ -136,12 +136,12 @@ def export_result_to_png(file_name):
         The file name you want to give your plot. You do not have to include the ending!
     
     Return Values:
-    string: confirmation message 
+    confirmation message: string
 
     '''
     #define the output path
     output_path=Path("../outputs")
-    output_path.mkdir(parents=True, exist_ok=True)
+    output_path.mkdir(parents=True, exist_ok=True) #creates a directory if none exists
     full_path= output_path/f"{file_name}.png"
 
     #then save the figure
@@ -149,7 +149,31 @@ def export_result_to_png(file_name):
 
     return f"File was saved to {full_path}."
 
-#Function: export processed data
+def export_processed_data(gdf, file_name, file_format="GPKG"):
+    '''
+    This function is designed to export the processed data to the data/processed/ folder. 
+
+    Parameters:
+    gdf: geodataframe
+        The name of the geodataframe you want to export.
+    file_name: string
+        Name of the file you want to export, including its file format.
+    file_format: string
+        The file format you want to export your data to. Default is a .gpkg. 
+
+    Return values:
+    confirmation message: string
+        The confirmation that the exported file is created in the desired folder.
+    '''
+    #define the export path
+    export_path=Path(f"../data/processed")
+    export_path.mkdir(parents=True, exist_ok=True)
+    full_path=export_path/f"{file_name}"
+
+    #return the file to the working directory
+    gdf.to_file(full_path, driver=file_format)
+
+    return f"The file '{file_name}' was exported to {full_path}."
 
 #Function Block 4: 
 # still needs functions for: selecting a category (low importance), counting the number of reports per neighborhood (high importance)
