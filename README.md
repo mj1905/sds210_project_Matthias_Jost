@@ -56,5 +56,5 @@ Then, execute the notebooks one for one. First, run the *raw_data_preprocessing.
 
 Note that the file paths in the notebooks are relative but they depend on the fact, that the notebooks are exectuted in the notbooks/ folder.
 
-# Small Note on the Kernel
+# Small note regarding the Kernel
 Occasionally, the Kernel fails to import all packages and dies. This somehow happened with all environments I used over the past few months. However, should this happen, I recommend restarting the Kernel. If that doesn't help, closing and reopening VS Code always worked. 
