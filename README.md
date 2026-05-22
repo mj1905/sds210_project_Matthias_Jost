@@ -1,7 +1,7 @@
 # Spatial Analysis of the ZüriWieNeu-reports
 ZüriWieNeu is an online platform where residents of the City of Zurich can report issues connected with the cities infrastructure they encounter during their everyday lifes. This project conducts a spatial analysis, looking at how these reports are distributed over the city. Five specific, unrelated questions were adressed:   
 
-1. Q1: Is the report density (reports/area) higher in the city centre then in the outskirts of Zurich?
+1. Q1: Is the report density (reports/area) higher in the city centre than in the outskirts of Zurich?
 2. Q2: Are Zurichs Ice Hockey Fans responsible for graffitis?
 3. Q3: How do the reports of the category VBZ/ÖV cluster over the city?
 4. Q4: Which categories of problems are most commonly reported in Zurich? 
@@ -31,6 +31,7 @@ The environment unfortunatelly includes much more packages than actually needed 
 Further, I used Anaconda Promt to manage the environment and Visual Study Code to code. 
 
 # Working directory setup:
+It is important to set the folder *sds210_project_Matthias_Jost* as the working directory. The notebooks are then exectured in a subfolder of the working directory. This allows the relative paths defined to import and export data to run without error.  
 ```
 sds210_project_Matthias_Jost/    # This is the working directory!   
 ├── README.md                    # The file you are reading right now  
