@@ -176,4 +176,4 @@ def export_processed_data(gdf, file_name, file_format="GPKG"):
     return f"The file '{file_name}' was exported to {full_path}."
 
 #Function Block 4: 
-# still needs functions for: selecting a category (low importance), counting the number of reports per neighborhood (high importance)
+# still needs functions for: counting the number of reports per neighborhood (high importance)
