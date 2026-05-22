@@ -1,16 +1,16 @@
-#This file hosts all functions used inside the 5 jupyter notebook.
+#This file hosts all functions used inside the 5 jupyter notebooks.
+
 import geopandas as gpd #type: ignore 
-import matplotlib.pyplot as plt #type: ignore 
-import numpy as np #type: ignore 
-import cmcrameri.cm as cmc #type: ignore 
+import matplotlib.pyplot as plt #type: ignore  
 from pathlib import Path
 
-# Function Block 1: Checking crs, geometry and datetime
+# Functions Block 1: Checking crs, geometry and datetime
 def check_and_convert_crs(gdf, epsg=2056):
     '''
     This function is used to check whether the loaded data is in the correct crs (default epsg=2056).
     If the data is already in the right projection, the function does nothing.
     If no crs is assigned yet, the function throws an error.
+    If a wrong crs is assigned, it is converted to epsg=2056.
 
     Parameters:
     gdf: geodataframe
@@ -22,12 +22,12 @@ def check_and_convert_crs(gdf, epsg=2056):
     gdf: geodataframe
             The same geodataframe we put into the function. Unchanged if the crs was correct, reprojected if the crs was not correct.
     '''
-    #Block one to check if the data has a crs
+    #Block 1 Checks if the data has a crs
     if gdf.crs is None:
         print("No CRS defined! Please assigne the correct CRS before you continue the analysis.")
         raise ValueError("No CRS defined!")
     
-    #Block two to check for the correct crs
+    #Block 2: Checks for the correct crs
     if gdf.crs.to_epsg() != epsg:
         gdf=gdf.to_crs(epsg=epsg)
         return gdf
@@ -46,11 +46,11 @@ def check_active_geometry_name(gdf):
     Retruns:
     no return values    
     '''
-    #first checks whether a geometry exists at all
+    #Block 1: Checks whether a geometry exists
     if gdf.geometry is None:
         raise ValueError("No geometry defined!")
     
-    #second checks whether the geometry column is one of the gdf columns
+    #Block 2: checks checks whether the geometry column is one of the gdf columns
     if gdf.geometry.name not in gdf.columns:
         raise ValueError("Geometry column wrongly assigned!")
 
@@ -62,28 +62,28 @@ def check_active_geometry_name(gdf):
 # Function Block 2: Importing data 
 def import_preprocessed_data(file_name, epsg=2056): 
     '''
-    This function is designed to load the desired processed data file into the jupyter notebook.
-    The function automaticall checks wheter the correct crs is assigned and if a geometry column
-    exists by using the two functions defined above.
+    This function is designed to import the desired preprocessed data file into the jupyter notebook.
+    The function automaticall checks whether the correct crs is assigned and if a geometry column
+    exists by calling the two functions defined above.
 
     Parameters:
     file_name: string
         The name of the file you want to load. Don't forget to include the file ending!
     epsg: integer
-        Number of the CRS that is desired. If none is given, EPSG=2056 is taken (ideal for Zurich, problematic in other parts of the world).
+        Number of the CRS that is desired. If none is given, EPSG=2056 is taken (ideal for Zurich).
 
     Outputs:
     gdf: geodataframe
-        The loaded and checked geodataframe
+        The loaded and checked geodataframe.
     '''
-    #defines the import path of the processed data file
+    #define import path
     import_path=Path(f"../data/processed/{file_name}")
 
-    #checks if the file exists
+    # "File exists check"
     if not import_path.exists():
         raise FileNotFoundError(f"File {file_name }not found! Please check the file name and the import path.")
     
-    #if it exists, load it and check crs and geometry
+    # If exists, loads and checks the file
     else:
         gdf=gpd.read_file(import_path)
         gdf=check_and_convert_crs(gdf, epsg=epsg)
@@ -93,9 +93,9 @@ def import_preprocessed_data(file_name, epsg=2056):
 
 def import_raw_data(file_name, layer=None, epsg=2056):   
     '''
-    This function is designed to load the desired raw data file into the jupyter notebook.
-    The function is designed to automatically checks the crs and geometry of the raw data. 
-    To do so, the two functions check_and_convert_crs() and check_active_geometry_name() are used.
+    This function is designed to import the desired raw data file into the jupyter notebook.
+    The function is designed to automatically check the crs and geometry of the raw data. 
+    To do so, the two functions check_and_convert_crs() and check_active_geometry_name() are called within this function.
 
     Parameters:
     file_name: string
@@ -103,26 +103,25 @@ def import_raw_data(file_name, layer=None, epsg=2056):
     layer: string
         Per default no layer is expected. If a certain layer of the data should be loaded, the layer needs to be specified.
     epsg: integer
-        Number of the crs used. This is per default set to epsg=2056, the swiss corrdinate system
+        Number of the crs used. This is per default set to epsg=2056, the swiss corrdinate system.
 
     Outputs:
     gdf: geodataframe
         This gives the loaded gdf, checked for crs and geometry. You just need to assign it to a name.
     '''
-    #defines the import path:
+    #define import path
     import_path=Path(f"../data/raw/{file_name}")
 
-    #checks wheter this file exists:
+    #checking wheter the file exists
     if not import_path.exists():
         raise FileNotFoundError(f"File {file_name }not found! Please check the file name and the import path.")
     
-    #if file exists, it is loaded and checked
+    #if file exists: load and check the file
     else:
         gdf=gpd.read_file(import_path, layer=layer)
         gdf=check_and_convert_crs(gdf, epsg=epsg)
         check_active_geometry_name(gdf)
-
-    #the  gdf is then returned
+    
     return gdf
     
 
@@ -139,15 +138,17 @@ def export_result_to_png(file_name):
     confirmation message: string
 
     '''
-    #define the output path
+    #define output path
     output_path=Path("../outputs")
     output_path.mkdir(parents=True, exist_ok=True) #creates a directory if none exists
     full_path= output_path/f"{file_name}.png"
 
-    #then save the figure
+    #save the figure
     plt.savefig(full_path, bbox_inches="tight", dpi=300)
 
     return f"File was saved to {full_path}."
+
+
 
 def export_processed_data(gdf, file_name, file_format="GPKG"):
     '''
@@ -167,13 +168,12 @@ def export_processed_data(gdf, file_name, file_format="GPKG"):
     '''
     #define the export path
     export_path=Path(f"../data/processed")
-    export_path.mkdir(parents=True, exist_ok=True)
+    export_path.mkdir(parents=True, exist_ok=True) #creates the folders if they are missing
     full_path=export_path/f"{file_name}"
 
-    #return the file to the working directory
+    # Data export
     gdf.to_file(full_path, driver=file_format)
 
     return f"The file '{file_name}' was exported to {full_path}."
 
-#Function Block 4: 
-# still needs functions for: counting the number of reports per neighborhood (high importance)
+
